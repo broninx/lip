@@ -10,12 +10,12 @@ let rec lang2  = function
   | _ -> false
 
 let rec lang3 = function
-  | h :: m :: [] when h='0' && m = '0'-> true  
-  | h:: m  :: t when h = '0'-> (m = '0' || m = '1') && lang3 @@ h::t 
+  | '0' :: '0' :: [] -> true  
+  | '0':: m  :: t -> (m = '0' || m = '1') && lang3 @@ '0'::t 
   | _ -> false
 
 let rec lang4 = function 
-  | h:: m :: [] when h= '1' && m = '1' -> true;
+  | '1':: '1' :: [] -> true;
   | h:: m:: t when not ((List.filter (fun (x) -> not (x='1')) (h::m::t)) = []) ->
       lang4 @@ List.filter  (fun (x) -> x = '1') (h::m::t) 
   | _ -> false
