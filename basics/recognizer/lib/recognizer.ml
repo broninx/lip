@@ -14,9 +14,14 @@ let rec lang3 = function
   | '0':: m  :: t -> (m = '0' || m = '1') && lang3 @@ '0'::t 
   | _ -> false
 
+let rec ch01 = function
+  | '0' :: [] -> true 
+  | '0':: t -> ch01 t
+  | _ -> false
+
 let rec lang4 = function 
   | '1':: '1' :: [] -> true;
-  | h:: m:: t when not ((List.filter (fun (x) -> not (x='1')) (h::m::t)) = []) ->
+  | h:: m:: t when List.filter (fun (x) -> not (x='1')) (h::m::t) |> ch01 ->
       lang4 @@ List.filter  (fun (x) -> x = '1') (h::m::t) 
   | _ -> false
 
