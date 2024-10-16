@@ -11,7 +11,7 @@ let rec lang2  = function
 
 let rec lang3 = function
   | '0' :: '0' :: [] -> true  
-  | '0':: m  :: t -> (m = '0' || m = '1') && lang3 @@ '0'::t 
+  | '0':: '0'  :: t| '0' :: '1' :: t -> lang3 @@ '0'::t 
   | _ -> false
 
 let rec ch01 = function
