@@ -48,20 +48,15 @@ let palindromes : grammar =
 (* #### Exercise 3, medium (balanced_parentheses)*)
 let balanced_parentheses : grammar = 
   {
-    symbols = [S;A];
+    symbols = [S];
     terminals = ['(';')';'[';']';'{';'}'];
     productions = 
       [
-        S --> "SA";
+        S --> "SS";
         S --> "(S)";
         S --> "[S]";
         S --> "{S}";
-        S --> "A";
-        A --> "S";
-        A --> "()";
-        A --> "[]";
-        A --> "{}";
-        A --> "";
+        S --> "";
       ];
       start = S;
   }
@@ -75,17 +70,15 @@ let balanced_parentheses : grammar =
 *)
 let same_amount : grammar = 
   {
-    symbols = [S;A;B];
+    symbols = [S];
     terminals = ['0';'1'];
     productions = 
       [
         S --> "SS";
-        S --> "01S10";
-        S --> "10S01";
-        S --> "01S01";
-        S --> "10S10";
-        S --> "00S11";
-        S --> "11S00";
+        S --> "S01";
+        S --> "S10";
+        S --> "S00S11";
+        S --> "S11S00";
         S --> "";
       ];
       start = S;
