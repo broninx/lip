@@ -74,12 +74,12 @@ let same_amount : grammar =
     terminals = ['0';'1'];
     productions = 
       [
-        S --> "SS";
-        S --> "S01";
-        S --> "S10";
-        S --> "S00S11";
-        S --> "S11S00";
-        S --> "";
+        S --> "SS";  (**)
+        S --> "S01"; (*with this production we have words created by every combination of 01*)
+        S --> "S10"; (*now we can create every word with "01" and "10" combined togheter*)
+        S --> "S00S11"; (*now we can even create the part of combination with many 0 on the left side and 1 on the other side*)
+        S --> "S11S00"; (*and now we have a grammar with every possible word with 0 and 1 linked by recurrence*)
+        S --> ""; (**)
       ];
       start = S;
   }
