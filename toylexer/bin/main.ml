@@ -18,3 +18,5 @@ let () = match Array.length(Sys.argv) with
       | _ -> print_newline())
   (* wrong usage *)      
   | _ -> failwith "Usage: dune exec toylexer [freq]"
+  
+

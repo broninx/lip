@@ -3,4 +3,8 @@ open Grammar
 open Types
 open Exercises
 
+<<<<<<< HEAD
 let to_string = string_of_sentform
+=======
+let to_string = string_of_sentform
+>>>>>>> 4719f17532db26687367fd71188f3d59cb864330
