@@ -19,7 +19,7 @@ let string_of_intorerr : int_or_err -> string = function
   | Ok n -> string_of_int n
   | Error msg -> msg
 
- (*--------------my work--------------*) 
+ (*--------------my functions--------------*) 
 
 (*int_of_digit: string -> int*)
 let int_of_digit d = match d with
@@ -40,12 +40,13 @@ let int_of_digit d = match d with
   | 'E' | 'e' -> 14
   | 'F' | 'f' -> 15
   | _ -> 0
-let string_to_char_list s =
-  s |> String.to_seq |> List.of_seq
+
+  (*string_to_char_list: string -> char list*)
+let string_to_char_list s = s |> String.to_seq |> List.of_seq
 
   (*pow: int -> int -> int*)
 let rec pow base exp = match exp with 
-0 -> 1 
+  0 -> 1 
   | 1 -> base
   | _ -> base * base * pow base (exp-1)
 
@@ -53,9 +54,9 @@ let rec pow base exp = match exp with
 
 let int_of_exadecimal (e:string) : int =  
   let rec int_of_exadecimal_of_string acc = function
-  | h::_ when h = 'x' || h = 'X' -> 0
-  | h::t -> (int_of_digit h) * pow 16 acc  + (int_of_exadecimal_of_string  (acc+1) t)
-  | _ -> 0
+    | h::_ when h = 'x' || h = 'X' -> 0
+    | h::t -> (int_of_digit h) * pow 16 acc  + (int_of_exadecimal_of_string  (acc+1) t)
+    | _ -> 0
   in int_of_exadecimal_of_string 0 (string_to_char_list e |> List.rev) 
 (*---------------------------------------------------------------------------------------*)
 (* eval : ast -> result *)
