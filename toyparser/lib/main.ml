@@ -54,7 +54,7 @@ let rec pow base exp = match exp with
 let int_of_exadecimal (e:string) : int =  
   let rec int_of_exadecimal_of_string acc = function
   | h::_ when h = 'x' || h = 'X' -> 0
-  | h::t -> (int_of_digit h) * pow 10 acc  + (int_of_exadecimal_of_string  (acc+1) t)
+  | h::t -> (int_of_digit h) * pow 16 acc  + (int_of_exadecimal_of_string  (acc+1) t)
   | _ -> 0
   in int_of_exadecimal_of_string 0 (string_to_char_list e |> List.rev) 
 (*---------------------------------------------------------------------------------------*)
