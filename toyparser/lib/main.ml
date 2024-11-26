@@ -47,8 +47,7 @@ let string_to_char_list s = s |> String.to_seq |> List.of_seq
   (*pow: int -> int -> int*)
 let rec pow base exp = match exp with 
   0 -> 1 
-  | 1 -> base
-  | _ -> base * base * pow base (exp-1)
+  | _ -> base * pow base (exp-1)
 
 (*int_of_exadecimal: string -> int*)
 
