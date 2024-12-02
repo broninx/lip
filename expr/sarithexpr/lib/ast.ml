@@ -1,5 +1,5 @@
 type expr =
-    True
+    True  
   | False
   | Not of expr
   | And of expr * expr
