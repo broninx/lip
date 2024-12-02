@@ -77,6 +77,9 @@ let rec eval : expr -> exprval = function
   |IsZero(e) -> if ((int_of_Nat (eval e)) = 0 )then Bool true else Bool false
 
 
+
+exception TypeError of string
+
 let is_nv = function
   | Zero -> true
   | Succ(_) -> true
@@ -86,7 +89,7 @@ let is_nv = function
 let string_of_type = function
 | NatT -> "Nat"
 | BoolT -> "Bool"
-exception TypeError of string
+
 let rec typecheck : expr -> exprtype = function
   True -> BoolT
   | False -> BoolT
