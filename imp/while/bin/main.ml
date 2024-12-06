@@ -1,6 +1,6 @@
-open WhileLib.Types
-open WhileLib.Prettyprint       
-open WhileLib.Main
+open While.Types
+open While.Prettyprint       
+open While.Main
 
 (* read file, and output it to a string *)
 

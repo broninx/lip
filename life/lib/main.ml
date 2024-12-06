@@ -1,4 +1,5 @@
 module T = ANSITerminal
+open Rule
 open Printf
 
 (* let rec range a b = if b<a then [] else a::(range (a+1) b) *)
