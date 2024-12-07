@@ -1,7 +1,7 @@
-open While.Ast
-open While.Types
-open While.Prettyprint       
-open While.Main
+open WhileLib.Ast
+open WhileLib.Types
+open WhileLib.Prettyprint       
+open WhileLib.Main
 
 (**********************************************************************
  parse test : (variable, term, expected result)

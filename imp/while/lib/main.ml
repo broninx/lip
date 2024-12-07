@@ -60,12 +60,8 @@ let rec eval_expr (st : state) (exp: expr): exprval = match exp with
       eval_expr st e2 ==> fun v2 ->
           Bool (v1 <= v2)
 
-let rec check ide = function 
-  | [] -> raise (UnboundVar "variable not declare")
-  | (label, v)::t -> if ide = label then v else check ide t  
 
-let state_bottom (ide: ide): exprval = let l = ref [(ide, Nat 0)] in 
-check ide !l
+let bot = fun x -> raise (UnboundVar x)
 
 let rec trace1 : conf -> conf = function
   | Cmd(Skip, st) -> St st 
@@ -85,15 +81,15 @@ let rec trace1 : conf -> conf = function
   end
   | _ -> raise NoRuleApplies
 
-let rec trace (n: int) (cmd: cmd): conf list = try
-    let cmd' = trace1 (Cmd(cmd, state_bottom )) in
-     cmd'::(match cmd' with 
-      | Cmd(c,_) -> trace (n-1) c
-      | s -> [s]
-      )
-  with NoRuleApplies -> [Cmd(cmd, state_bottom)]
-
-
+let  trace n t= let rec trace_rec n1 t1 = (match n1 with
+  0 -> [t1]
+  | num  when num > 0-> 
+     ( try 
+        let t' = trace1 t1 in 
+        t1::(trace_rec (num-1) t') 
+      with NoRuleApplies -> [t1] 
+     )
+  | _ -> [t1]) in (trace_rec n (Cmd(t,bot)))  
 
 
 

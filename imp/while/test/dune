@@ -1,3 +1,5 @@
-(test
- (name test_while)
- (preprocess (pps ppx_inline_test)))
+(library
+  (name whileTest)
+  (inline_tests)
+  (preprocess (pps ppx_inline_test))
+  (libraries whileLib))

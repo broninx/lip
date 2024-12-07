@@ -30,6 +30,11 @@ open Ast
 
 %token EOF
 
+%left SEQ
+%left DO ELSE
+%left AND OR NOT
+%left ADD SUB EQ LEQ
+%left MUL
 %start <cmd> prog
 
 %%
