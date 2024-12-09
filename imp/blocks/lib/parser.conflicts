@@ -1,0 +1,26 @@
+
+** Conflict (shift/reduce) in state 38.
+** Token involved: SEQ
+** This state is reached from prog after reading:
+
+decl cmd
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+prog 
+cmd EOF 
+(?)
+
+** In state 38, looking ahead at SEQ, shifting is permitted
+** because of the following sub-derivation:
+
+decl cmd 
+     cmd . SEQ cmd 
+
+** In state 38, looking ahead at SEQ, reducing production
+** cmd -> decl cmd
+** is permitted because of the following sub-derivation:
+
+cmd SEQ cmd // lookahead token appears
+decl cmd . 

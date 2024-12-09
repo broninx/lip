@@ -81,3 +81,4 @@ let%test "test_trace12" = test_trace
     
 let%test "test_trace13" = test_trace
     ("{ int y; { int x; x:=20; y:=x }; { int x; x:=30; y:=x+y+1 } }", 10, 0, Int 51)
+

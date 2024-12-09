@@ -36,3 +36,4 @@ match Array.length(Sys.argv) with
         | s -> s |> parse |> (fun x -> trace n x) |> print_trace)
 (* wrong usage *)      
 | _ -> failwith "Usage: dune exec blocks n_steps [file]"
+
