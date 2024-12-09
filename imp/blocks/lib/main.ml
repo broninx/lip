@@ -104,10 +104,11 @@ let rec trace1 : conf -> conf = function
         (getloc st) ) 
     | IVar _ -> raise (TypeError (e1 ^ " expected type int, but the expression assigned had type bool"))
   end
-  | Cmd(Seq(c1, c2), st) -> 
-      (trace1 (Cmd(c1, st))--> function 
-        | St st' ->  Cmd(c2,st')
-        | Cmd(c1', st' ) -> Cmd(Seq(c1', c2), st') )  
+  | Cmd(Seq(c1, c2), (env,mem,loc)) -> 
+      (trace1 (Cmd(c1, (env,mem,loc)))--> function 
+        | St (env',mem',loc') when (List.length env' > List.length env) -> trace1 (Cmd(c2,(env,mem',loc')))
+        | St st' -> trace1 (Cmd(c2, st'))
+        | Cmd(c1', st' ) -> trace1 (Cmd(Seq(c1', c2), st') ))
   | Cmd(If(e,c1,c2), st) -> (match eval_expr st e with
       | Bool false -> Cmd(c2,st) 
       | Bool true -> Cmd(c1, st) 
@@ -130,4 +131,4 @@ let rec trace1 : conf -> conf = function
 let  trace n t= let rec trace_rec n1 t1 = (match n1 with
   0 -> [t1]
   | num  when num > 0->  let t' = trace1 t1 in t1::(trace_rec (num-1) t') 
-  | _ -> [t1]) in trace_rec n (Cmd(t, ([], bot_mem, 0)))  
+  | _ -> [t1]) in trace_rec n (Cmd(t, ([bot_env], bot_mem, 0)))  
