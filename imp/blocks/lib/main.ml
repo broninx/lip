@@ -26,11 +26,6 @@ let ( -=> ) (res : memval) (f : bool -> memval)  : memval =
   | Bool value -> f value
   | _ -> raise (TypeError "need bool")
 
-let ( --> ) (res : conf) (f : conf -> conf)  : conf =
-  match res with
-  | St st -> f (St st) 
-  | Cmd(c,s) -> f (Cmd(c,s))
-
 let loc_of_envval = function
   | IVar i -> i
   |BVar b -> b
@@ -94,25 +89,19 @@ let rec trace1 : conf -> conf = function
   | Cmd(Assign(e1,e2), st) -> begin 
     match (rightEnv st e1) with
     | BVar b when hastypeboolan (eval_expr st e2) -> 
-        St ( getenv st , 
-         bind_mem (getmem st) b (eval_expr st e2) , 
-        (getloc st) ) 
-    | BVar _ -> raise (TypeError (e1 ^ " expected type bool, but the expression assigned had type int"))
+        St ( getenv st , bind_mem (getmem st) b (eval_expr st e2) , (getloc st) ) 
     | IVar i when hastypeinteger (eval_expr st e2) -> 
-        St ( getenv st , 
-         bind_mem (getmem st) i (eval_expr st e2) , 
-        (getloc st) ) 
-    | IVar _ -> raise (TypeError (e1 ^ " expected type int, but the expression assigned had type bool"))
+        St ( getenv st , bind_mem (getmem st) i (eval_expr st e2) , (getloc st) ) 
+    |  _ -> raise (TypeError ( "expected another type"))
   end
-  | Cmd(Seq(c1, c2), (env,mem,loc)) -> 
-      (trace1 (Cmd(c1, (env,mem,loc)))--> function 
-        | St (env',mem',loc') when (List.length env' > List.length env) -> trace1 (Cmd(c2,(env,mem',loc')))
-        | St st' -> trace1 (Cmd(c2, st'))
-        | Cmd(c1', st' ) -> trace1 (Cmd(Seq(c1', c2), st') ))
+  | Cmd(Seq(c1, c2), (env,mem,loc)) -> (match (trace1 (Cmd(c1, (env,mem,loc)))) with 
+    | St (env',mem',loc') when (List.length env' > List.length env) -> trace1 (Cmd(c2,(env,mem',loc'))) 
+    | St st' -> trace1 (Cmd(c2, st'))
+    | Cmd(c1', st' ) -> trace1 (Cmd(Seq(c1', c2), st') ))
   | Cmd(If(e,c1,c2), st) -> (match eval_expr st e with
-      | Bool false -> Cmd(c2,st) 
-      | Bool true -> Cmd(c1, st) 
-      | _ -> raise (UnboundVar "the expression have some variable not decrared" ))
+    | Bool false -> Cmd(c2,st) 
+    | Bool true -> Cmd(c1, st) 
+    | _ -> raise (UnboundVar "the expression have some variable not decrared" ))
   | Cmd(While(e, c), st) -> begin match eval_expr st e with
     | Bool false -> St st
     | Bool true -> Cmd( (Seq(c, While(e, c))) , st) 
